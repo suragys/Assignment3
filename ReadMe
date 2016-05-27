@@ -1,0 +1,11 @@
+Name: Surag Suresh Yalaburgi
+SCU ID: 
+1. No special Android Studio setting required.
+2. The images are stored on external storage.
+3. I have used thumbnails.
+4. Add button goes to "Add photo" activity first. The option to add a photo lies there.
+5. TargetSDK is set to 23.
+6. I have implemented bonus features(Recyler View). 
+	Swipe to dismiss works perfectly. 
+	Re-ordering also works and also gets persisted in database.
+   	Everything is implementd and works well.
