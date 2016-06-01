@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.scu.suragys.assignment3">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -24,7 +26,7 @@
         <activity android:name=".AddPhotoActivity"
             android:parentActivityName="edu.scu.suragys.assignment3.MainActivity"/>
         <activity android:name=".PhotoViewActivity"
-            android:parentActivityName="edu.scu.suragys.assignment3.MainActivity"></activity>
+            android:parentActivityName="edu.scu.suragys.assignment3.MainActivity"/>
     </application>
 
 </manifest>
