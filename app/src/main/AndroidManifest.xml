@@ -34,6 +34,9 @@
         <activity
             android:name=".PhotoViewActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".PhotoCanvasActivity"
+            android:parentActivityName=".AddPhotoActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

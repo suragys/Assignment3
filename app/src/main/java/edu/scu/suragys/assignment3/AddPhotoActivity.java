@@ -9,7 +9,6 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -94,15 +93,18 @@ public class AddPhotoActivity extends AppCompatActivity {
 
         }
         flag =false;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-//        Log.v("File path", "----------------" + file.getPath());
-        path = file.getPath();
-        thumbFile = Uri.fromFile(new File(path.substring(0, path.indexOf(".")) + "_thumbNail.jpg"));
-        thumbNailPath = thumbFile.getPath();
+        Intent i = new Intent(this, PhotoCanvasActivity.class);
+        startActivityForResult(i, 25);
 
-        startActivityForResult(intent, 100);
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        file = Uri.fromFile(getOutputMediaFile());
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+////        Log.v("File path", "----------------" + file.getPath());
+//        path = file.getPath();
+//        thumbFile = Uri.fromFile(new File(path.substring(0, path.indexOf(".")) + "_thumbNail.jpg"));
+//        thumbNailPath = thumbFile.getPath();
+//
+//        startActivityForResult(intent, 100);
 
 
 //        Log.v("Done", "Took picture and coming here ----------------" + file.getPath());
@@ -145,21 +147,23 @@ public class AddPhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == 100) {
-//            if (resultCode == RESULT_OK) {
-////                iv.setImageURI(file);
-//                flag = true;
-//                iv.setMinimumHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, this.getResources().getDisplayMetrics()));
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 8;      // 1/8 of original image
-//                Bitmap b = BitmapFactory.decodeFile(file.getPath(), options);
-//                iv.setImageBitmap(b);
-//
-////                Picasso.with(image.getContext()).load(storagePath).fit().centerCrop().into(image);
-//            }
-//        }
 
 
+        if (requestCode ==  25){
+            if (resultCode == RESULT_OK)
+            {
+                file = Uri.parse(data.getStringExtra("PicAddress"));
+                flag = true;
+                iv.setMinimumHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, this.getResources().getDisplayMetrics()));
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 1;      // 1/8 of original image
+                Bitmap b = BitmapFactory.decodeFile(file.getPath());
+                path = file.getPath();
+                thumbFile = Uri.fromFile(new File(path.substring(0, path.indexOf(".")) + "_thumbNail.jpg"));
+                thumbNailPath = thumbFile.getPath();
+                iv.setImageBitmap(b);
+            }
+        }
 
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             gps = new GPSTracker(this.getApplicationContext());
