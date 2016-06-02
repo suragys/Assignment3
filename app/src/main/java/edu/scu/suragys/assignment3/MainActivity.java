@@ -3,8 +3,6 @@ package edu.scu.suragys.assignment3;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,13 +13,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.TypedValue;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
          mDbHelper = new DBHelper(getApplicationContext());
 
-
+        mDbHelper.deleteTable();
+        mDbHelper.createTable();
         myDataset = mDbHelper.getDataObjects();
 
 //        myDataset.add("surag");

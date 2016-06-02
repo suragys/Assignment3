@@ -48,6 +48,42 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="13dp" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play Audio"
+                android:id="@+id/playAudio"
+                android:onClick="playAudio"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="LatLang"
+                android:id="@+id/latLangtextView"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/latlang"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="13dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show location on map"
+                android:id="@+id/buttonShowLocation"
+                android:layout_below="@+id/buttonTakePhoto"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="29dp"
+                android:onClick="ShowMap"
+                />
+
 
 
 

@@ -15,6 +15,11 @@ public class MyObject implements Serializable {
     public static final String COLUMN_NAME_CAPTION = "CAPTION";
     public static final String COLUMN_NAME_THUMBNAILPATH = "THUMBNAILPATH" ;
     public static final String COLUMN_NAME_POSITION = "POSITION";
+    public static final String COLUMN_NAME_LATTITUDE = "LATTITUDE";
+    public static final String COLUMN_NAME_LONGITUDE = "LONGITUDE";
+    public static final String COLUMN_NAME_AUDIOPATH = "AUDIOPATH";
+
+
 
 
     private static List<MyObject> objectList = new ArrayList<MyObject>();
@@ -24,6 +29,11 @@ public class MyObject implements Serializable {
     private int id;
     private String thumbNailPath;
     private String caption;
+    private String lattitude;
+    private String audioPath;
+    private String longitude;
+
+
 
     public int getPosition() {
         return position;
@@ -63,6 +73,30 @@ public class MyObject implements Serializable {
         this.caption = caption;
     }
 
+    public String getLattitude() {
+        return lattitude;
+    }
+
+    public void setLattitude(String lattitude) {
+        this.lattitude = lattitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getAudioPath() {
+        return audioPath;
+    }
+
+    public void setAudioPath(String audioPath) {
+        this.audioPath = audioPath;
+    }
+
     public static List<MyObject> getObjectsList(){
         return objectList;
     }
@@ -70,6 +104,7 @@ public class MyObject implements Serializable {
     public static void addObjects(MyObject object){
         objectList.add(object);
     }
+
 
 
 }

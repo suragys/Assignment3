@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by suragys on 5/20/16.
@@ -23,7 +22,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     MyObject.COLUMN_NAME_PATH + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_CAPTION + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_THUMBNAILPATH + TEXT_TYPE + COMMA_SEP +
-                    MyObject.COLUMN_NAME_POSITION + " INTEGER " +
+                    MyObject.COLUMN_NAME_POSITION + " INTEGER " + COMMA_SEP +
+                    MyObject.COLUMN_NAME_LATTITUDE + TEXT_TYPE + COMMA_SEP +
+                    MyObject.COLUMN_NAME_LONGITUDE + TEXT_TYPE + COMMA_SEP +
+                    MyObject.COLUMN_NAME_AUDIOPATH + TEXT_TYPE +
                     " )";
 
     private static final String SQL_DELETE_ENTRIES =
@@ -41,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
+        Log.i("create Table",SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
@@ -67,12 +70,13 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(MyObject.COLUMN_NAME_CAPTION, object.getCaption());
         values.put(MyObject.COLUMN_NAME_THUMBNAILPATH, object.getThumbNailPath());
         values.put(MyObject.COLUMN_NAME_POSITION, object.getPosition());
+        values.put(MyObject.COLUMN_NAME_LATTITUDE,object.getLattitude());
+        values.put(MyObject.COLUMN_NAME_LONGITUDE,object.getLongitude());
+        values.put(MyObject.COLUMN_NAME_AUDIOPATH,object.getAudioPath());
 
 // Insert the new row, returning the primary key value of the new row
         long newRowId;
-        newRowId = db.insert(
-                MyObject.TABLE_NAME, null,
-                values);
+        newRowId = db.insert(MyObject.TABLE_NAME, null,values);
 //        object.setId((int)newRowId);
         //Log.v("row Id gen", "------------------------ " + newRowId);
         return newRowId;
@@ -92,7 +96,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 MyObject.COLUMN_NAME_PATH,
                 MyObject.COLUMN_NAME_CAPTION,
                 MyObject.COLUMN_NAME_THUMBNAILPATH,
-                MyObject.COLUMN_NAME_POSITION
+                MyObject.COLUMN_NAME_POSITION,
+                MyObject.COLUMN_NAME_LATTITUDE,
+                MyObject.COLUMN_NAME_LONGITUDE,
+                MyObject.COLUMN_NAME_AUDIOPATH
         };
 
 // How you want the results sorted in the resulting Cursor
@@ -133,6 +140,9 @@ public class DBHelper extends SQLiteOpenHelper {
             o.setThumbNailPath(thumbNailPath);
             int postion = c.getInt(4);
             o.setPosition(postion);
+            o.setLattitude(c.getString(5));
+            o.setLongitude(c.getString(6));
+            o.setAudioPath(c.getString(7));
 
             //Log.v("db retrieval" , id + path + caption + thumbNailPath + postion);
             objects.add(o);
@@ -165,5 +175,16 @@ public class DBHelper extends SQLiteOpenHelper {
             args.put(MyObject.COLUMN_NAME_POSITION, o.getPosition());
             int i = getWritableDatabase().update(MyObject.TABLE_NAME, args, MyObject.ID + "=" + o.getId(), null);
         }
+    }
+
+    public void deleteTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES);
+    }
+
+    public void createTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        Log.i("create Table",SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 }

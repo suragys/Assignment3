@@ -1,7 +1,6 @@
 package edu.scu.suragys.assignment3;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,9 +20,11 @@ import android.util.Log;
  * http://stackoverflow.com/questions/27359227/getting-location-data-for-a-taken-photo-in-android
  */
 
-public class GPSTracker extends Service implements LocationListener {
+public class GPSTracker implements LocationListener {
 
     private final Context mContext;
+//    private Looper mServiceLooper;
+//    private ServiceHandler mServiceHandler;
 
     // Flag for GPS status
     boolean isGPSEnabled = false;
@@ -48,6 +48,11 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+//    @Override
+//    public ComponentName startService(Intent service) {
+//        return super.startService(service);
+//    }
+
     public GPSTracker(Context context) {
         this.mContext = context;
         getLocation();
@@ -56,7 +61,7 @@ public class GPSTracker extends Service implements LocationListener {
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
-                    .getSystemService(LOCATION_SERVICE);
+                    .getSystemService(mContext.LOCATION_SERVICE);
 
             // Getting GPS status
             isGPSEnabled = locationManager
@@ -70,38 +75,38 @@ public class GPSTracker extends Service implements LocationListener {
                 // No network provider is enabled
             } else {
                 this.canGetLocation = true;
-                if (isNetworkEnabled) {
-                    if (ActivityCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED &&
-                            ActivityCompat.checkSelfPermission(this,
-                                    Manifest.permission.ACCESS_COARSE_LOCATION)
-                                    != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-                        ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-
-                    }
-
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    Log.i("Network", "Network");
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-
-                }
+//                if (isNetworkEnabled) {
+//                    if (ActivityCompat.checkSelfPermission(mContext,
+//                            Manifest.permission.ACCESS_FINE_LOCATION)
+//                            != PackageManager.PERMISSION_GRANTED &&
+//                            ActivityCompat.checkSelfPermission(mContext,
+//                                    Manifest.permission.ACCESS_COARSE_LOCATION)
+//                                    != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+//                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//
+//                    }
+//
+//                    locationManager.requestLocationUpdates(
+//                            LocationManager.NETWORK_PROVIDER,
+//                            MIN_TIME_BW_UPDATES,
+//                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//                    Log.i("Network", "Network");
+//                        location = locationManager
+//                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//                        if (location != null) {
+//                            latitude = location.getLatitude();
+//                            longitude = location.getLongitude();
+//                        }
+//
+//                }
                 // If GPS enabled, get latitude/longitude using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-                        }
+//                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+//                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//                        }
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
@@ -112,6 +117,7 @@ public class GPSTracker extends Service implements LocationListener {
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
                                 latitude = location.getLatitude();
+
                                 longitude = location.getLongitude();
                             }
                         }
@@ -132,13 +138,13 @@ public class GPSTracker extends Service implements LocationListener {
      */
     public void stopUsingGPS() {
         if (locationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-
-
-            }
+//            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//
+//
+//            }
             locationManager.removeUpdates(GPSTracker.this);
         }
     }
@@ -232,8 +238,67 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
 
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
+//    @Override
+//    public IBinder onBind(Intent arg0) {
+//        return null;
+//    }
+//
+//
+//
+//    // Handler that receives messages from the thread
+//    private final class ServiceHandler extends Handler {
+//        public ServiceHandler(Looper looper) {
+//            super(looper);
+//        }
+//        @Override
+//        public void handleMessage(Message msg) {
+//            // Normally we would do some work here, like download a file.
+//            // For our sample, we just sleep for 5 seconds.
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                // Restore interrupt status.
+//                Thread.currentThread().interrupt();
+//            }
+//            // Stop the service using the startId, so that we don't stop
+//            // the service in the middle of handling another job
+//            stopSelf(msg.arg1);
+//        }
+//    }
+//
+//    @Override
+//    public void onCreate() {
+//        // Start up the thread running the service.  Note that we create a
+//        // separate thread because the service normally runs in the process's
+//        // main thread, which we don't want to block.  We also make it
+//        // background priority so CPU-intensive work will not disrupt our UI.
+//        HandlerThread thread = new HandlerThread("ServiceStartArguments",
+//                10);
+//        thread.start();
+//
+//        // Get the HandlerThread's Looper and use it for our Handler
+//        mServiceLooper = thread.getLooper();
+//        mServiceHandler = new ServiceHandler(mServiceLooper);
+//    }
+//
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+//
+//        // For each start request, send a message to start a job and deliver the
+//        // start ID so we know which request we're stopping when we finish the job
+//        Message msg = mServiceHandler.obtainMessage();
+//        msg.arg1 = startId;
+//        mServiceHandler.sendMessage(msg);
+//
+//        // If we get killed, after returning from here, restart
+//        return START_STICKY;
+//    }
+//
+//
+//
+//    @Override
+//    public void onDestroy() {
+//        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+//    }
 }
