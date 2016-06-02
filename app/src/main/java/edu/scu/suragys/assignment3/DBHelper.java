@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     MyObject.COLUMN_NAME_PATH + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_CAPTION + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_THUMBNAILPATH + TEXT_TYPE + COMMA_SEP +
-                    MyObject.COLUMN_NAME_POSITION + " INTEGER " + COMMA_SEP +
+                    MyObject.COLUMN_NAME_POSITION + " INTEGER" + COMMA_SEP +
                     MyObject.COLUMN_NAME_LATTITUDE + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_LONGITUDE + TEXT_TYPE + COMMA_SEP +
                     MyObject.COLUMN_NAME_AUDIOPATH + TEXT_TYPE +
@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
 //    }
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "photoNotes.db";
+    public static final String DATABASE_NAME = "photoNotes2.db";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

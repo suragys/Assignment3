@@ -36,13 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
          mDbHelper = new DBHelper(getApplicationContext());
 
-        mDbHelper.deleteTable();
-        mDbHelper.createTable();
+//        mDbHelper.deleteTable();
+//        mDbHelper.createTable();
         myDataset = mDbHelper.getDataObjects();
 
-//        myDataset.add("surag");
-//        myDataset.add("manoj");
-//        myDataset.add("mahendra");
+
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -89,22 +87,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void getDataSet(DBHelper mDbHelper) {
-//
-//        myDataset =
-//    }
+
 
     public void takePicture() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        file = Uri.fromFile(getOutputMediaFile());
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-//        Log.v("File path", "----------------"+file.getPath());
-//
-//        startActivityForResult(intent, 100);
+
 
         Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
         startActivityForResult(intent, 100);
-//        startActivity(intent);
+
 
     }
 
@@ -183,11 +173,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(Intent.ACTION_DELETE).setData(Uri.parse("package:edu.scu.suragys.assignment3")));
     }
 
-    private void testUpload(){
-        int i = 1+1;
 
-        int ii = 2+2;
-
-        int iii = i+ii;
-    }
 }

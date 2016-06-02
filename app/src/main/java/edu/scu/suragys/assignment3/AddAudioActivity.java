@@ -34,7 +34,7 @@ public class AddAudioActivity extends AppCompatActivity {
     private MediaRecorder audioRecorder;
     private String audioFile = null;
     private long startTime = 0L;
-    private Handler customHandler;
+    private Handler handler;
     private Button saveAudioAndReturn;
     private Runnable updateTimerThread = new Runnable() {
 
@@ -51,9 +51,9 @@ public class AddAudioActivity extends AppCompatActivity {
             timerText.setText("" + String.format("%02d", hrs) + ":" + String.format("%02d", mins) + ":"
                     + String.format("%02d", secs));
 
-            customHandler.postDelayed(this, 0);
+            handler.postDelayed(this, 0);
             if (timerText.getText().toString().equalsIgnoreCase(total_time)) {
-                customHandler.removeCallbacks(updateTimerThread);
+                handler.removeCallbacks(updateTimerThread);
             }
 
         }
@@ -77,6 +77,7 @@ public class AddAudioActivity extends AppCompatActivity {
         saveAudioAndReturn = (Button) findViewById(R.id.saveAudioButton);
         stopButton.setEnabled(false);
         stopButton.setImageResource(R.drawable.stop);
+        stopButton.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.INVISIBLE);
         deleteButton.setVisibility(View.INVISIBLE);
         saveAudioAndReturn.setVisibility(View.INVISIBLE);
@@ -117,10 +118,8 @@ public class AddAudioActivity extends AppCompatActivity {
                     audioRecorder.prepare();
                     audioRecorder.start();
                 } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -128,11 +127,12 @@ public class AddAudioActivity extends AppCompatActivity {
                 recordButton.setImageResource(R.drawable.record);
                 stopButton.setEnabled(true);
                 stopButton.setImageResource(R.drawable.stop);
+                stopButton.setVisibility(View.VISIBLE);
 
-                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Recording Audio", Toast.LENGTH_SHORT).show();
                 startTime = SystemClock.uptimeMillis();
-                customHandler = new Handler();
-                customHandler.postDelayed(updateTimerThread, 1000);
+                handler = new Handler();
+                handler.postDelayed(updateTimerThread, 1000);
 
             }
         });
@@ -154,10 +154,10 @@ public class AddAudioActivity extends AppCompatActivity {
                 playButton.setImageResource(R.drawable.play);
                 deleteButton.setImageResource(R.drawable.delete);
 
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Audio recorded ", Toast.LENGTH_SHORT).show();
                 timeSwapBuff += timeInMilliseconds;
                 total_time = timerText.getText().toString();
-                customHandler.removeCallbacks(updateTimerThread);
+                handler.removeCallbacks(updateTimerThread);
 
 
             }
@@ -175,8 +175,8 @@ public class AddAudioActivity extends AppCompatActivity {
                     m.start();
                     timeSwapBuff = 0;
                     startTime = SystemClock.uptimeMillis();
-                    customHandler.postDelayed(updateTimerThread, 1000);
-                    Toast.makeText(getApplicationContext(), "Playing audio", Toast.LENGTH_LONG).show();
+                    handler.postDelayed(updateTimerThread, 1000);
+                    Toast.makeText(getApplicationContext(), "Playing recorded audio", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -200,7 +200,7 @@ public class AddAudioActivity extends AppCompatActivity {
                 } else {
                     file.delete();
                 }
-                Toast.makeText(getApplicationContext(), "Recording deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "audio deleted", Toast.LENGTH_LONG).show();
                 timerText.setText("00:00:00");
                 total_time = "";
                 recordButton.setEnabled(true);
@@ -214,6 +214,7 @@ public class AddAudioActivity extends AppCompatActivity {
                 deleteButton.setImageResource(R.drawable.delete);
                 playButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
+                stopButton.setVisibility(View.INVISIBLE);
                 saveAudioAndReturn.setVisibility(View.INVISIBLE);
             }
         });

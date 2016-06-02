@@ -42,7 +42,7 @@ public class PhotoViewActivity extends AppCompatActivity {
 
         i.setMinimumHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, this.getResources().getDisplayMetrics()));
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 8;      // 1/8 of original image
+        options.inSampleSize = 1;      // 1/8 of original image
         Bitmap b = BitmapFactory.decodeFile(obj.getPath(), options);
         i.setImageBitmap(b);
     }
